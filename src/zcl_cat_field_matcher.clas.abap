@@ -1,7 +1,10 @@
-CLASS zcl_cat_field_matcher DEFINITION PUBLIC FINAL CREATE PUBLIC.
+CLASS zcl_cat_field_matcher DEFINITION
+  PUBLIC FINAL
+  CREATE PUBLIC.
+
   PUBLIC SECTION.
-    CONSTANTS c_not_initial TYPE c LENGTH 1 VALUE '*'.
-    CONSTANTS c_initial     TYPE c LENGTH 1 VALUE '!'.
+    CONSTANTS c_not_initial TYPE c LENGTH 1 VALUE '*' ##NO_TEXT.
+    CONSTANTS c_initial     TYPE c LENGTH 1 VALUE '!' ##NO_TEXT.
 
     CLASS-METHODS compare_field_values
       IMPORTING

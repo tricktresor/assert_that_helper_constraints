@@ -9,9 +9,9 @@ CLASS zcl_cat_check_line_exists DEFINITION PUBLIC FINAL CREATE PUBLIC.
         key_fields TYPE string_table OPTIONAL.
 
   PRIVATE SECTION.
-    DATA exp_data        TYPE REF TO data.
-    DATA info            TYPE string_table.
-    DATA key_fields      TYPE string_table.
+    DATA exp_data   TYPE REF TO data.
+    DATA info       TYPE string_table.
+    DATA key_fields TYPE string_table.
 ENDCLASS.
 
 
@@ -47,7 +47,11 @@ CLASS zcl_cat_check_line_exists IMPLEMENTATION.
       CLEAR where_clause.
       LOOP AT key_fields INTO DATA(key_field).
         ASSIGN COMPONENT key_field OF STRUCTURE <exp> TO FIELD-SYMBOL(<key>).
-        APPEND |{ key_field } = '{ <key> }'| TO where_clause.
+        IF where_clause IS INITIAL.
+          APPEND |{ key_field } = '{ <key> }'| TO where_clause.
+        ELSE.
+          APPEND |AND { key_field } = '{ <key> }'| TO where_clause.
+        ENDIF.
       ENDLOOP.
       LOOP AT <t_act> ASSIGNING FIELD-SYMBOL(<act>) WHERE (where_clause).
       ENDLOOP.
