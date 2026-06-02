@@ -3,9 +3,6 @@ CLASS zcl_cat_check_line_exists DEFINITION PUBLIC FINAL CREATE PUBLIC.
   PUBLIC SECTION.
     INTERFACES if_constraint.
 
-    CONSTANTS c_not_initial TYPE c LENGTH 1 VALUE '*'.
-    CONSTANTS c_initial     TYPE c LENGTH 1 VALUE '!'.
-
     METHODS constructor
       IMPORTING
         exp_data   TYPE REF TO data
@@ -14,15 +11,7 @@ CLASS zcl_cat_check_line_exists DEFINITION PUBLIC FINAL CREATE PUBLIC.
   PRIVATE SECTION.
     DATA exp_data        TYPE REF TO data.
     DATA info            TYPE string_table.
-    DATA struct_info_exp TYPE REF TO cl_abap_structdescr.
-    DATA struct_info_act TYPE REF TO cl_abap_structdescr.
     DATA key_fields      TYPE string_table.
-
-    METHODS get_info
-      IMPORTING
-        i_table       TYPE any
-      RETURNING
-        VALUE(result) TYPE REF TO cl_abap_structdescr.
 ENDCLASS.
 
 
@@ -54,9 +43,6 @@ CLASS zcl_cat_check_line_exists IMPLEMENTATION.
       RETURN.
     ENDIF.
 
-    struct_info_act = get_info( <t_act> ).
-    struct_info_exp = get_info( <exp> ).
-
     DATA(row_index) = 0.
 
     row_index = row_index + 1.
@@ -77,32 +63,14 @@ CLASS zcl_cat_check_line_exists IMPLEMENTATION.
         RETURN.
       ENDIF.
     ENDIF.
-    LOOP AT struct_info_exp->components INTO DATA(component).
-      ASSIGN COMPONENT component-name OF STRUCTURE <exp> TO FIELD-SYMBOL(<exp_val>).
-      IF <exp_val> IS INITIAL.
-        CONTINUE.
-      ENDIF.
-
-      ASSIGN COMPONENT component-name OF STRUCTURE <act> TO FIELD-SYMBOL(<act_val>).
-      IF sy-subrc <> 0.
-        CONTINUE.
-      ENDIF.
-
-      CASE <exp_val>.
-        WHEN c_initial.
-          IF <act_val> IS NOT INITIAL.
-            APPEND |Index { row_index }: field value of { component-name } should be empty but has a value: { <act_val> }| TO info.
-          ENDIF.
-        WHEN c_not_initial.
-          IF <act_val> IS INITIAL.
-            APPEND |Index { row_index }: field value of { component-name } should be filled but is empty: { <act_val> }| TO info.
-          ENDIF.
-        WHEN OTHERS.
-          IF <exp_val> <> <act_val>.
-            APPEND |Index { row_index }: field values of { component-name } differs: act = { <act_val> }, exp = { <exp_val> }| TO info.
-          ENDIF.
-      ENDCASE.
-    ENDLOOP.
+    zcl_cat_field_matcher=>compare_field_values(
+      EXPORTING
+        i_struct_info_exp = zcl_cat_field_matcher=>get_info( <exp> )
+        i_index_info      = |Index { row_index }: |
+        i_exp             = <exp>
+        i_act             = <act>
+      CHANGING
+        ct_info           = info ).
 
     IF info IS INITIAL.
       result = abap_true.
@@ -111,16 +79,5 @@ CLASS zcl_cat_check_line_exists IMPLEMENTATION.
 
   METHOD if_constraint~get_description.
     result = info.
-  ENDMETHOD.
-
-  METHOD get_info.
-    DATA tabl_info TYPE REF TO cl_abap_tabledescr.
-
-    TRY.
-        tabl_info ?= cl_abap_typedescr=>describe_by_data( i_table ).
-        result ?= tabl_info->get_table_line_type( ).
-      CATCH cx_sy_move_cast_error.
-        result ?= cl_abap_typedescr=>describe_by_data( i_table ).
-    ENDTRY.
   ENDMETHOD.
 ENDCLASS.
