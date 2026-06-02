@@ -20,6 +20,7 @@ CLASS ltcl_table DEFINITION FINAL
     METHODS struc_wildcard_not_initial FOR TESTING RAISING cx_static_check.
     METHODS struc_wildcard_not_filled  FOR TESTING RAISING cx_static_check.
     METHODS check_line_exists_equal    FOR TESTING RAISING cx_static_check.
+    METHODS check_line_exists_filled   FOR TESTING RAISING cx_static_check.
     METHODS check_line_exists_wildcard FOR TESTING RAISING cx_static_check.
 ENDCLASS.
 
@@ -166,6 +167,24 @@ CLASS ltcl_table IMPLEMENTATION.
       date = '20240602'
       time = '130000'
       numc = '54321' ).
+
+    DATA cut TYPE REF TO if_constraint.
+    cut = NEW zcl_cat_check_line_exists(
+      exp_data   = REF #( exp_demo )
+      key_fields = VALUE string_table( ( `INTG` ) ) ).
+    cl_abap_unit_assert=>assert_that( exp = cut act = act_demo ).
+  ENDMETHOD.
+
+  METHOD check_line_exists_filled.
+    DATA(act_demo) = VALUE tt_demo(
+        ( intg = 1 char = 'test1' date = '20240601' time = '120000' numc = '12345' ) ).
+
+    DATA(exp_demo) = VALUE ts_demo(
+      intg = 1
+      char = '*'
+      date = '20240601'
+      time = '120000'
+      numc = '12345' ).
 
     DATA cut TYPE REF TO if_constraint.
     cut = NEW zcl_cat_check_line_exists(
