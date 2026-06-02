@@ -31,7 +31,7 @@ CLASS ltcl_table IMPLEMENTATION.
     DATA(exp_demo) = act_demo.
 
     DATA cut TYPE REF TO if_constraint.
-    cut = NEW zcl_cat_compare_fields( REF #( exp_demo ) ).
+    cut = NEW zcl_cat_match_fields( REF #( exp_demo ) ).
     cl_abap_unit_assert=>assert_that( exp = cut act = act_demo ).
   ENDMETHOD.
 
@@ -45,7 +45,7 @@ CLASS ltcl_table IMPLEMENTATION.
         ( intg = 2 char = '!' date = '20240602' time = '130000' numc = '54321' ) ).
 
     DATA cut TYPE REF TO if_constraint.
-    cut = NEW zcl_cat_compare_fields( REF #( exp_demo ) ).
+    cut = NEW zcl_cat_match_fields( REF #( exp_demo ) ).
     cl_abap_unit_assert=>assert_that( exp = cut act = act_demo ).
   ENDMETHOD.
 
@@ -59,7 +59,7 @@ CLASS ltcl_table IMPLEMENTATION.
     DATA(exp_demo) = act_demo.
 
     DATA cut TYPE REF TO if_constraint.
-    cut = NEW zcl_cat_compare_fields( REF #( exp_demo ) ).
+    cut = NEW zcl_cat_match_fields( REF #( exp_demo ) ).
     cl_abap_unit_assert=>assert_that( exp = cut act = act_demo ).
   ENDMETHOD.
 
@@ -77,7 +77,7 @@ CLASS ltcl_table IMPLEMENTATION.
                                     numc = '12345'  ).
 
     DATA cut TYPE REF TO if_constraint.
-    cut = NEW zcl_cat_compare_fields( REF #( exp_demo ) ).
+    cut = NEW zcl_cat_match_fields( REF #( exp_demo ) ).
     cl_abap_unit_assert=>assert_that( exp = cut act = act_demo ).
   ENDMETHOD.
 
@@ -95,7 +95,7 @@ CLASS ltcl_table IMPLEMENTATION.
                                     numc = '12345'  ).
 
     DATA cut TYPE REF TO if_constraint.
-    cut = NEW zcl_cat_compare_fields( REF #( exp_demo ) ).
+    cut = NEW zcl_cat_match_fields( REF #( exp_demo ) ).
     cl_abap_unit_assert=>assert_that( exp = cut act = act_demo ).
   ENDMETHOD.
 
@@ -113,7 +113,7 @@ CLASS ltcl_table IMPLEMENTATION.
                                     numc = '54321'  ).
 
     DATA cut TYPE REF TO if_constraint.
-    cut = NEW zcl_cat_compare_fields( REF #( exp_demo ) ).
+    cut = NEW zcl_cat_match_fields( REF #( exp_demo ) ).
     cl_abap_unit_assert=>assert_false( cut->is_valid( act_demo ) ).
   ENDMETHOD.
 
@@ -131,7 +131,7 @@ CLASS ltcl_table IMPLEMENTATION.
                                     numc = '12345'  ).
 
     DATA cut TYPE REF TO if_constraint.
-    cut = NEW zcl_cat_compare_fields( REF #( exp_demo ) ).
+    cut = NEW zcl_cat_match_fields( REF #( exp_demo ) ).
     cl_abap_unit_assert=>assert_false( cut->is_valid( act_demo ) ).
   ENDMETHOD.
 
@@ -149,7 +149,7 @@ CLASS ltcl_table IMPLEMENTATION.
                                     numc = '12345'  ).
 
     DATA cut TYPE REF TO if_constraint.
-    cut = NEW zcl_cat_compare_fields( REF #( exp_demo ) ).
+    cut = NEW zcl_cat_match_fields( REF #( exp_demo ) ).
     cl_abap_unit_assert=>assert_false( cut->is_valid( act_demo ) ).
   ENDMETHOD.
 ENDCLASS.

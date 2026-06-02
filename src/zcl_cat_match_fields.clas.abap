@@ -1,4 +1,4 @@
-CLASS zcl_cat_compare_fields DEFINITION PUBLIC FINAL CREATE PUBLIC.
+CLASS zcl_cat_match_fields DEFINITION PUBLIC FINAL CREATE PUBLIC.
   PUBLIC SECTION.
     INTERFACES if_constraint.
 
@@ -41,7 +41,7 @@ CLASS zcl_cat_compare_fields DEFINITION PUBLIC FINAL CREATE PUBLIC.
 ENDCLASS.
 
 
-CLASS zcl_cat_compare_fields IMPLEMENTATION.
+CLASS zcl_cat_match_fields IMPLEMENTATION.
   METHOD constructor.
     expected_data = i_expected_data.
   ENDMETHOD.

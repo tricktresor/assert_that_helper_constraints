@@ -33,14 +33,8 @@ CLASS zcl_cat_check_line_exists IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD if_constraint~is_valid.
-* FIELD-SYMBOLS <t_exp> TYPE STANDARD TABLE.
     FIELD-SYMBOLS <t_act> TYPE STANDARD TABLE.
     DATA where_clause TYPE string_table.
-
-    " TODO:
-    " FUNKTIONIERT BISHER NUR MIT TABELLEN
-    " SOLLTE ABER GERNE AUCH MIT STRUKTUREN FUNKTIONIEREN!
-    " STRUKTUREN WURDEN BISHER NICHT BENÖTIGT
 
     ASSIGN data_object TO <t_act>.
     IF sy-subrc > 0.
