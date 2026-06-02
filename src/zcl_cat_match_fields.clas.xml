@@ -3,7 +3,7 @@
  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
   <asx:values>
    <VSEOCLASS>
-    <CLSNAME>ZCL_CAT_COMPARE_FIELDS</CLSNAME>
+    <CLSNAME>ZCL_CAT_MATCH_FIELDS</CLSNAME>
     <LANGU>E</LANGU>
     <DESCRIPT>Constraints for Assert That: Table comparison</DESCRIPT>
     <STATE>1</STATE>
